@@ -1,31 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Button, Text } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import { logoutUser } from '../../_actions';
-/**
- * Just a centered logout button.
- */
+
 class HomeScreen extends Component {
+
   static propTypes = {
     logout: PropTypes.func
+  };
+
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return{
+        title: 'Home',
+        headerRight: <Button title="Add" color="#fff" onPress={() => params.todoCreate()}/>
+    };
+  };
+
+  componentDidMount() {
+      this.props.navigation.setParams({ todoCreate: this.todoCreate });
   }
 
-  logout = () => {
-    this.props.logoutUser();
-    this.props.navigation.navigate('Auth');
+  todoCreate = () => {
+    this.props.navigation.navigate('TodoCreate');
   }
 
   render () {
     return (
       <View style={styles.container}>
-        <CustomButton
-          text={'Logout'}
-          onPress={()=> this.logout()}
-          buttonStyle={styles.button}
-          textStyle={styles.buttonText}
-        />
+        <Text>
+          Home
+        </Text>
       </View>
     )
   }
@@ -48,3 +55,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   }
 })
+
+
+// logout = () => {
+  //   this.props.logoutUser();
+  //   // @todo callback
+  //   this.props.navigation.navigate('Auth');
+  // }
