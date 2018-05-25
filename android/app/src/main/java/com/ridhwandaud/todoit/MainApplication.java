@@ -1,4 +1,4 @@
-package com.ridhwandaud.boilerplate;
+package com.ridhwandaud.todoit;
 
 import android.app.Application;
 
