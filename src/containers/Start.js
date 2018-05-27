@@ -1,40 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { View, Text } from 'react-native';
-import AuthScreen from './LoginScreen';
-import HomeScreen from './HomeScreen';
-import { loginUser, logoutUser, signupUser } from '../_actions';
+import { View, ActivityIndicator } from 'react-native';
+import { checkUserLogin } from '../_actions';
 
 class Start extends Component{
 
-	 static navigationOptions = {
+	static navigationOptions = {
    	 	header: null,
   	}
 
   	componentWillMount(){
-  		const { login } = this.props;
-  		this.props.navigation.navigate(login.isLoggedIn ? 'App' : 'Auth');
+  		console.log('componentWillMount');
+  		const { login, checkUserLogin } = this.props;
+  		checkUserLogin(() => {
+	      	this.props.navigation.navigate('App');
+	    }, () => {
+	    	console.log('no current user');
+	    	this.props.navigation.navigate('Auth');
+	    });
   	}
 
 	render(){
-		const { login, loginUser, logoutUser, signupUser, ...props } = this.props;
-	      return (
-	        <AuthScreen
-	       	  {...props}
-	          login={loginUser}
-	          signup={signupUser}
-	          isLoading={login.loading}
-	          isLoggedIn={login.isLoggedIn}
-	          error={login.loggedInError}
-	          onLoginAnimationCompleted={() => this.setState({ isAppReady: true })}
-	        />
-	      )
+		return (
+			<View style={{ 
+				flex: 1, 
+				backgroundColor: '#fff', 
+				flex: 1,
+    			justifyContent: 'center',
+    			alignItems: 'center' 
+    		}}>
+				<ActivityIndicator size="large" color="#1976D2" />
+			</View>
+		)
 	}
 }
 
-
-const mapStateToProps = ({ LoginReducer }) => ({
-	login: LoginReducer,
-});
-
-export default connect(mapStateToProps, { logoutUser, loginUser, signupUser })(Start);
+export default connect(null, { checkUserLogin })(Start);

@@ -1,11 +1,13 @@
 import React from 'react';
 import { View, Text, Button } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import StartScreen from './Start';
+import Start from './Start';
+import AuthScreen from './AuthScreen';
 import HomeScreen from './HomeScreen';
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation';
 
-const AuthStack = createStackNavigator({ StartScreen: StartScreen });
+const StartStack = createStackNavigator({ Start: Start });
+const AuthStack = createStackNavigator({ AuthScreen: AuthScreen });
 const AppStack = createStackNavigator(
 	{ 
 		Home: HomeScreen
@@ -26,10 +28,11 @@ const AppStack = createStackNavigator(
 
 export default createSwitchNavigator(
   {
+  	Start: StartStack,
     Auth: AuthStack,
     App: AppStack,
   },
   {
-    initialRouteName: 'Auth',
+    initialRouteName: 'Start',
   }
 );
