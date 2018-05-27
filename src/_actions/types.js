@@ -8,7 +8,13 @@ const loginActionTypes = {
 	SIGNUP_USER_SUCCESS: 'SIGNUP_USER_SUCCESS',
 };
 
+const todoActionTypes = {
+	TODO_CREATE: 'TODO_CREATE',
+	TODO_FETCH_SUCCESS: 'TODO_FETCH_SUCCESS',
+};	
+
 
 export default {
 	...loginActionTypes,
+	...todoActionTypes,
 };
