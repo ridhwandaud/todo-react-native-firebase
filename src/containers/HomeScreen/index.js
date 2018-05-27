@@ -8,12 +8,15 @@ import {
   Text, 
   TouchableHighlight, 
   TextInput, 
-  Platform 
+  Platform,
+  FlatList
 } 
 from 'react-native';
 import Modal from "react-native-modal";
 import CustomButton from '../../components/CustomButton';
-import { todoCreate, logoutUser } from '../../_actions';
+import { todosFetch, todoCreate, logoutUser } from '../../_actions';
+import ListItem from './ListItem';
+import _ from 'lodash';
 
 const IS_ANDROID = Platform.OS === 'android'
 
@@ -42,13 +45,16 @@ class HomeScreen extends Component {
     };
   };
 
+  componentWillMount() {
+    this.props.todosFetch();
+  }
+
   componentDidMount() {
       this.props.navigation.setParams({ todoCreate: this.todoCreate });
   }
 
   todoCreate = () => {
     this.setState({ isModalVisible: true });
-    //this.props.navigation.navigate('TodoCreate');
   }
 
   closeModal = () =>{
@@ -61,12 +67,31 @@ class HomeScreen extends Component {
     this.props.todoCreate(this.state.text);
   }
 
+  logout = () => {
+    this.props.logoutUser();
+    // @todo callback
+    this.props.navigation.navigate('Auth');
+  }
+
   render () {
+    console.log('this.props.todos', this.props.todos);
     return (
       <View style={styles.container}>
-        <Text>
-          Home
-        </Text>
+        <FlatList
+          data={this.props.todos}
+          renderItem={
+            ({item}) => 
+              <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
+                <Text>{item.description}</Text>
+              </View>
+        }
+        />
+        <CustomButton
+          text={'Logout'}
+          onPress={()=> this.logout()}
+          buttonStyle={styles.button}
+          textStyle={styles.buttonText}
+        />
         <Modal 
           isVisible={this.state.isModalVisible}
           onBackdropPress={() => this.setState({ isModalVisible: false })}
@@ -117,7 +142,15 @@ class HomeScreen extends Component {
   }
 }
 
-export default connect(null, { todoCreate, logoutUser }) (HomeScreen);
+const mapStateToProps = state => {
+  const todos = _.map(state.todos, (val, key) => {
+    return { ...val, key};
+  });
+  console.log(todos);
+  return { todos };
+};
+
+export default connect(mapStateToProps, { todosFetch, todoCreate, logoutUser }) (HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -185,9 +218,3 @@ const styles = StyleSheet.create({
   }
 })
 
-
-// logout = () => {
-  //   this.props.logoutUser();
-  //   // @todo callback
-  //   this.props.navigation.navigate('Auth');
-  // }
