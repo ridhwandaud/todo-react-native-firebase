@@ -74,7 +74,6 @@ class HomeScreen extends Component {
   }
 
   render () {
-    console.log('this.props.todos', this.props.todos);
     return (
       <View style={styles.container}>
         <FlatList
@@ -84,7 +83,11 @@ class HomeScreen extends Component {
               <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
                 <Text>{item.description}</Text>
               </View>
-        }
+          }
+          onRefresh={() => {
+            this.props.todosFetch();
+          }}
+          refreshing={false}
         />
         <CustomButton
           text={'Logout'}
@@ -108,7 +111,6 @@ const mapStateToProps = state => {
   const todos = _.map(state.todos, (val, key) => {
     return { ...val, key};
   });
-  console.log(todos);
   return { todos };
 };
 
