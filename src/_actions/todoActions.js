@@ -27,3 +27,16 @@ export const todosFetch = (callback) => {
 			});
 	};
 };
+
+export const taskDelete = ({ uid }) => {
+  const { currentUser } = firebase.auth();
+
+  return () => {
+    firebase.database().ref(`/users/${currentUser.uid}/todos/${uid}`)
+      .remove()
+      .then(() => {
+        //dispatch({ type: types.TODO_DELETE })
+		//callback && callback();
+      });
+  };
+};
