@@ -1,0 +1,11 @@
+// apk to upload
+
+ cd android && ./gradlew assembleRelease
+adb install -r app/build/outputs/apk/app-release.apk
+
+// location
+
+android/app/build/outputs/apk/app-release.apk
+
+// test release build
+react-native run-android --variant=release
