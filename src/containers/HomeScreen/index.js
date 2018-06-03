@@ -7,19 +7,23 @@ import {
   TouchableOpacity, 
   Text, 
   TouchableHighlight, 
-  FlatList
+  FlatList,
+  Alert
 } 
 from 'react-native';
 import CustomButton from '../../components/CustomButton';
-import { todosFetch, todoCreate, logoutUser } from '../../_actions';
-import ListItem from './ListItem';
+import { todosFetch, todoCreate, taskDelete, logoutUser } from '../../_actions';
 import _ from 'lodash';
-import Modal from './TodoCreateModal';
+import CreateModal from './TodoCreateModal';
+import DeleteModal from './TodoDeleteModal';
+import { List, ListItem } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/dist/FontAwesome';
 
 class HomeScreen extends Component {
 
   state = {
     isModalVisible: false,
+    isDeleteModalVisible: false,
     text: '',
   };
 
@@ -59,7 +63,7 @@ class HomeScreen extends Component {
 
   createTask = () =>{
 
-    this.setState({ isModalVisible: false });
+    this.setState({ isModalVisible: false, text: '' });
     this.props.todoCreate(this.state.text);
   }
 
@@ -73,31 +77,46 @@ class HomeScreen extends Component {
     this.props.navigation.navigate('Auth');
   }
 
+  openDeleteTask = (uid) => {
+    this.setState({ isDeleteModalVisible: true, taskDelete: uid });
+  }
+
+  closeDeleteModal = () =>{
+    this.setState({ isDeleteModalVisible: false });
+  }
+
+  deleteTask = () => {
+    this.setState({ isDeleteModalVisible: false, taskDelete: '' });
+    this.props.taskDelete({ uid: this.state.taskDelete });
+  }
+
   render () {
-    console.log('this.props.todos', this.props.todos);
     return (
       <View style={styles.container}>
         <FlatList
           data={this.props.todos}
           renderItem={
             ({item}) => 
-              <View style={{ flexDirection: 'row', justifyContent: 'space-around', }}>
-                <Text>{item.description}</Text>
-              </View>
-        }
+              <ListItem 
+                title={item.description}
+                hideChevron
+                onPress={ () => this.openDeleteTask(item.uid) }
+              />
+          }
+          ListEmptyComponent={() => <Text style={styles.emptyMessageStyle}>The list is empty</Text>  }
         />
-        <CustomButton
-          text={'Logout'}
-          onPress={()=> this.logout()}
-          buttonStyle={styles.button}
-          textStyle={styles.buttonText}
-        />
-        <Modal
+        <CreateModal
           isModalVisible={this.state.isModalVisible}
           createTask={this.createTask}
           closeModal={this.closeModal}
           onChangeText={this.onChangeText}
           text={this.state.text}
+        />
+        <DeleteModal
+          isDeleteModalVisible={this.state.isDeleteModalVisible}
+          deleteTask={this.deleteTask}
+          closeDeleteModal={this.closeDeleteModal}
+          deleteTaskId={this.state.taskDelete}
         />
       </View>
     )
@@ -105,20 +124,19 @@ class HomeScreen extends Component {
 }
 
 const mapStateToProps = state => {
-  const todos = _.map(state.todos, (val, key) => {
-    return { ...val, key};
+  const todos = _.map(state.todos, (val, uid) => {
+    return { ...val, uid};
   });
   console.log(todos);
   return { todos };
 };
 
-export default connect(mapStateToProps, { todosFetch, todoCreate, logoutUser }) (HomeScreen);
+export default connect(mapStateToProps, { todosFetch, todoCreate, taskDelete, logoutUser }) (HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    backgroundColor: '#ffffff',
   },
   button: {
     backgroundColor: '#1976D2',
@@ -127,6 +145,10 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold'
+  },
+  emptyMessageStyle: {
+    textAlign: 'center',
+    marginTop: 20,
   },
 })
 

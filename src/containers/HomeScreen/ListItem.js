@@ -8,16 +8,13 @@ class ListItem extends Component {
 	}
 
 	render(){
-		const { name } = this.props.todos;
-
+		const { item } = this.props;
+		console.log('item',item);
 		return(
-			<TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
-				<View>
-					<Text style={styles.titleStyle}>
-						{name}
-					</Text>	
-				</View>
-			</TouchableWithoutFeedback>
+			<ListItem 
+				onPress={this.onRowPress.bind(this)}
+				title={item.description}
+			/>
 		);
 	}
 }
