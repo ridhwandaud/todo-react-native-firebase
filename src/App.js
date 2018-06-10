@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { persistStore } from 'redux-persist';
 import Router from './containers/Router';
 import configureStore from './store';
-import firebase from 'firebase';
 
 const WHITELISTED_REDUCER = ['LoginReducer'];
 
@@ -21,19 +20,6 @@ class App extends Component {
     persistStore(store, { storage: AsyncStorage, whitelist: WHITELISTED_REDUCER }, () => {
       this.setState({ isHydrated: true });
     });
-
-    const config = {
-      apiKey: 'AIzaSyAKVZr3v2TePkF3kDZ0-Obr_ltzPHkBGDE',
-      authDomain: 'manager-154fc.firebaseapp.com',
-      databaseURL: 'https://manager-154fc.firebaseio.com',
-      projectId: 'manager-154fc',
-      storageBucket: 'manager-154fc.appspot.com',
-      messagingSenderId: '492235088441'
-    };
-
-    if (!firebase.apps.length) {
-      firebase.initializeApp(config);
-    } 
 
   }
   render() {

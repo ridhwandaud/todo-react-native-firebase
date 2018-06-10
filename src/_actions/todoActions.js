@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from 'react-native-firebase';
 import types from './types';
 
 export const todoCreate = (description, callback) => {

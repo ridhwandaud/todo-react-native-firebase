@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "492235088441",
+    "firebase_url": "https://manager-154fc.firebaseio.com",
+    "project_id": "manager-154fc",
+    "storage_bucket": "manager-154fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:492235088441:android:30e0f95008b2acb1",
+        "android_client_info": {
+          "package_name": "com.ridhwandaud.todoit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "492235088441-3tsifo7p45vcgrakmhjdr0dhvghtg9gb.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "492235088441-3tsifo7p45vcgrakmhjdr0dhvghtg9gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9p1O3-CghyxcfoNKm6ELGEG1gQtzIwBE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
