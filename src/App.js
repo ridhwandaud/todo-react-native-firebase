@@ -30,7 +30,11 @@ class App extends Component {
       storageBucket: 'manager-154fc.appspot.com',
       messagingSenderId: '492235088441'
     };
-    firebase.initializeApp(config);
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(config);
+    } 
+
   }
   render() {
     const { store, isHydrated } = this.state;
