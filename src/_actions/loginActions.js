@@ -43,8 +43,14 @@ export const signupUser = ({ email,password,fullname }, callback, callbackError)
     dispatch({ type: types.SIGNUP_USER });
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then(user => {
-        loginUserSuccess(dispatch, user);
-        callback && callback();
+        firebase.database().ref().child('users/'+user.uid).set({
+             email: user.email,
+             fullname: fullname,
+        }).then(()=>{
+          loginUserSuccess(dispatch, user);
+          callback && callback();
+        })
+        
       })
       .catch((error)=>{
         dispatch({ type: types.LOGIN_USER_FAIL });
