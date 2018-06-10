@@ -10,6 +10,7 @@ const loginActionTypes = {
 
 const todoActionTypes = {
 	TODO_CREATE: 'TODO_CREATE',
+	TODO_FETCH_START: 'TODO_FETCH_START',
 	TODO_FETCH_SUCCESS: 'TODO_FETCH_SUCCESS',
 };	
 

@@ -21,6 +21,7 @@ export const todosFetch = (callback) => {
 	const { currentUser } = firebase.auth();
 
 	return(dispatch) => {
+		dispatch({ type: types.TODO_FETCH_START });
 		firebase.database().ref(`/users/${currentUser.uid}/todos`)
 			.on('value',snapshot => {
 				dispatch({ type: types.TODO_FETCH_SUCCESS, payload: snapshot.val() });
