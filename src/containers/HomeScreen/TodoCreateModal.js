@@ -29,6 +29,7 @@ class TodoModal extends Component {
 	              onChangeText={onChangeText}
 	              value={text}
 	              underlineColorAndroid="transparent"
+	              autoFocus={true}
 	            />
 	            <View style={styles.footer}>
 	              <TouchableOpacity 
